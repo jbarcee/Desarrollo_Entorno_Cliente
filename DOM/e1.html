@@ -1,0 +1,94 @@
+<html>
+<!--1.- A partir de la página web proporcionada y utilizando las funciones DOM, mostrar por pantalla la siguiente información:
+
+a)     Número de enlaces de la página
+
+b)     Dirección a la que enlaza el penúltimo enlace
+
+c)      Número de enlaces que enlazan a http://prueba
+
+d)     Número de enlaces del tercer párrafo-->
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>Ejercicio DOM básico</title>
+
+</head>
+
+
+
+<body>
+
+    <p>
+
+        Prueba A
+
+        <a href="http://prueba">enlace A</a>
+
+        Prueba B
+
+        <a href="http://prueba2">enlace B</a>
+
+        Prueba C
+
+    </p>
+    <p>
+
+        Prueba D
+
+        <a href="http://prueba">enlace C</a>
+
+        Prueba E
+
+        <a href="http://prueba3">enlace D</a>
+
+        Prueba F
+
+    </p>
+    <p>
+        Prueba G
+
+        <a href="http://prueba">enlace G</a>
+
+        Prueba H
+
+        <a href="http://prueba4">enlace H</a>
+
+        Prueba I
+
+        <a href="http://prueba5">enlace I</a>
+
+        Prueba J.
+
+    </p>
+
+
+    <script>
+        //a)
+        
+        alert("Hay " + document.getElementsByTagName("a").length + " enlaces en la página.");
+        
+        //b)
+        
+        let listaEnlaces = document.getElementsByTagName("a");
+        let penultimoEnlace = listaEnlaces[listaEnlaces.length-2];
+        alert(penultimoEnlace.href);
+        
+        //c)
+
+        let contador = 0;
+        for (i = 0; i < listaEnlaces.length; i++) {
+            if (listaEnlaces[i].href == "http://prueba/") contador++;
+        }
+        alert("Enlaces que llevan a http://prueba/: " + contador);
+
+        //d)
+        let tercerParrafo = document.getElementsByTagName("p")[2];
+        alert("En el tercer párrafo hay " + tercerParrafo.getElementsByTagName("a").length + " enlaces.");
+
+    </script>
+
+</body>
+
+</html>
