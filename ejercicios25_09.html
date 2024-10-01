@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        /*
+1.- Crea un programa en el que crees 4 variables: 2 cadenas y 2 números,  con los siguientes valores: tu nombre, tu apellido, tu edad y tu año de nacimiento.
+
+a)    Muestra en un alert una frase que incluya comillas simples.
+
+b)    Muestra en un alert tu nombre y apellidos separados por un salto de línea.
+
+c)    Muestra en un alert la suma de las variables edad y año de nacimiento.
+
+Comenta el código con los comentarios que estimes necesarios.*/
+        function ejercicioUno() {
+            let nombre = "Jorge";
+            let apellido = "Barce";
+            let edad = 25;
+            let anio = 1999;
+
+            alert('Hola esto es un alert');
+            alert(nombre + "\n" + apellido);
+            alert("Suma: " + (edad + anio));
+        }
+        /*2.- Crea un programa que muestre el resultado de varias operaciones mediante alert, mostrando el texto exacto de la operación realizada y su resultado.*/
+        function ejercicioDos() {
+            alert("La operacion 10==10 es " + (10 == 10) + "\n" + "La operacion 10===10 es " + (10 === 10) + "\n" + "La operacion Laura == laura es " + ("Laura" == "laura"));
+        }
+        /*3.- Crea un programa que pida al usuario que introduzca una edad y muestre el siguiente mensaje en función del número introducido:
+
+a)    0-12: Niño
+
+b)    13-26: Joven
+
+c)    26-60: Adulto
+
+d)    >60: Jubilado
+
+e)    Otro caso: Indicar que el número no es válido.
+
+*/
+        function ejercicioTres() {
+            let age = prompt("¿Cuál es tu edad?", 100);
+            if (age < 0){
+                alert("Número no válido");
+            }
+            else if (age >= 0 && age <= 12) {
+                alert("Eres un niño");
+            }
+            else if (age > 12 && age <= 26) {
+                alert("Eres joven");
+            }
+            else if (age > 26 && age <= 60) {
+                alert("Eres adulto");
+            }
+            else if (age > 60){
+                alert("Eres jubilado");
+            }
+        }
+        /*4.- Escribe un programa que reciba un número y compruebe si es par o impar.*/
+        function ejercicioCuatro() {
+            let num = prompt("Escribe un número", 0);
+            if (num % 2 == 0) {
+                alert("El número es par");
+            }
+            else {
+                alert("El número es impar");
+            }
+        }
+        /*5.- Realiza un script que le pregunte al usuario la nota obtenida en un examen, y en función del resultado devuelva: "Suspenso", "Aprobado", "Notable" o "Sobresaliente".*/
+        function ejercicioCinco() {
+            let nota = prompt("¿Nota del alumno?");
+            let num = parseInt(nota);
+            if (num < 0 || num > 10) {
+                alert("Valor incorrecto");
+            }
+            else if (num == 0 || num <= 4) {
+                alert("Suspenso");
+            }
+            else if (num == 5 || num == 6) {
+                alert("Aprobado");
+            }
+            else if(num == 7 || num == 8) {
+                alert("Notable");
+            }
+            else {
+                alert("Sobresaliente");
+            }
+        }
+        /*6.- Crea un programa que genere un listado de horas que vayan desde las 9 hasta las 21:30 de 30 minutos en 30 minutos.*/
+        function ejercicioSeis(){
+            let hora = 9;
+            let min = 0;
+            let time = "";
+            let result = "";
+            while(hora <= 21 && min <= 30) {
+                time = hora + ":" + min;
+                min += 30;
+                if (min == 60) {
+                    min = 0;
+                    hora++;
+                }
+                result += time + ", ";
+            }
+            document.write(result);
+            
+        }
+        /*7.- Crea un programa que genere un listado de horas que vayan desde las 9 hasta las 21 de 5 minutos en 5 minutos.*/
+        function ejercicioSiete() {
+            let hour = 9;
+            let min = 0;
+            let time = "";
+            for (hour; hour <= 21; min += 5) {
+                if (min == 60 ) {
+                    min = 0;
+                    hour++;
+                }
+                if (hour != 22) {
+                    time += "<b>" + hour + ":" + min + " - </b>";
+                } 
+                
+            }
+            
+            let p = document.getElementById("ejercicio_siete");
+            p.innerHTML = time;
+
+        }
+        /*8.- Solicita un número y muestra al usuario su tabla de multiplicar. Para su presentación deberás usar etiquetas html.*/
+        function ejercicioOcho() {
+            let num = prompt("Introduzca un número");
+            let res = "";
+            for (i = 0; i <= 10; i++) {
+                res += "<h3>" + num + " * " + i + " = " + (num * i) + "</h3>";
+            }
+            let p = document.getElementById("ejercicio_ocho");
+            p.innerHTML = res;
+        }
+        /*9.- Crea un control parental para que no se pueda entrar en una página.
+
+a)    Se pedirá al usuario que escriba el apellido del primer presidente de la democracia.
+
+b)    Mientras el usuario no introduzca el valor correcto, el mensaje seguirá saliendo.*/
+        function ejercicioNueve() {
+            let res;
+            do {
+                res = prompt("¿Cual es el apellido del primer presidente de la democracia?");
+            }
+            while (res != "Suarez")
+        }
+        /*13.- Realiza un script en el que un usuario introduzca un número, y vaya sumando cada una de sus cifras y devuelva el resultado.*/
+        function ejercicioTrece() {
+            let num = prompt("Introduzca un numero");
+            let sum = 0;
+            while(num != 0) {
+                sum += (num%10);
+                num = parseInt(num /= 10);
+            }
+            alert("Suma: " + sum);
+        }
+        /*16.- Crea un script genere 10 números aleatorios comprendidos entre 0 y 100. (Pista: usa Math).*/
+        function ejercicioDieciseis() {
+            let result = "";
+            for (i = 0; i < 10; i++) {
+                result += parseInt(Math.random() * (100 - 0) + 0) + ", ";
+            }
+            alert(result);
+        }
+    </script>
+</head>
+<body>
+    <button onclick = "ejercicioUno()">Ejercicio 1</button>
+    <button onclick ="ejercicioDos()">Ejercicio 2</button>
+    <button onclick="ejercicioTres()">Ejercicio 3</button>
+    <button onclick="ejercicioCuatro()">Ejercicio 4</button>
+    <hr>
+    <button onclick="ejercicioCinco()">Ejercicio 5</button>
+    <button onclick="ejercicioSeis()">Ejercicio 6</button>
+    <button onclick="ejercicioSiete()">Ejercicio 7</button>
+    <button onclick="ejercicioOcho()">Ejercicio 8</button>
+    <hr>
+    <button onclick="ejercicioNueve()">Ejercicio 9</button>
+    <button onclick="ejercicioTrece()">Ejercicio 13</button>
+    <button onclick="ejercicioDieciseis()">Ejercicio 16</button>
+    <p id = "ejercicio_ocho"></p>
+    <p id = "ejercicio_siete"></p>
+</body>
+</html>
