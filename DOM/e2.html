@@ -1,0 +1,51 @@
+<html>
+<!--2.- Sobre el siguiente código, realiza las siguientes modificaciones:
+
+a)     Cuando el usuario pinche sobre el enlace se debe mostrar el texto.
+
+b)     El enlace debe dejar de mostrarse.
+
+ -->
+
+<head>
+
+    <title>Ejercicio DOM</title>
+
+
+
+    <style type="text/css">
+        .oculto {
+            display: none;
+        }
+
+        .visible {
+            display: inline;
+        }
+    </style>
+
+
+
+    <script type="text/javascript">
+        //a)
+        function muestra() {
+            let enlace = document.getElementById("enlace");
+            alert(enlace.innerText);
+            //b)
+            enlace.parentNode.removeChild(enlace);
+        }
+
+    </script>
+
+</head>
+
+
+
+<body>
+
+    <p id="texto">Texto ejercicio 2<span id="adicional" class="oculto"> segunda parte </span></p>
+
+    <a id="enlace" href="#" onclick="muestra()">Seguir leyendo</a>
+
+</body>
+
+</html>
