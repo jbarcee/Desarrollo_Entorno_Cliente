@@ -8,22 +8,29 @@
 
     <meta charset="UTF-8">
 
-    
+
 
     <script type="text/javascript">
 
         function enviar() {
+            let respuesta = document.getElementById("respuesta").value;
+            let input = document.getElementById("respuesta");
 
+            if (respuesta.toLowerCase() != "pedro sanchez") {
+                document.getElementById("resultado").innerHTML = "<b>No es correcto</b>";
+                input.value = "Prueba otra vez";
+            }
+            else {
+                document.getElementById("resultado").innerHTML = "<b>¡Es correcto!</b>";
+                input.value = "¡Correcto!";
+            }
+        }
 
-
-
-
+        function vaciarInput() {
+            document.getElementById("respuesta").value = "";
         }
 
     </script>
-
-     
-
 </head>
 
 <body>
@@ -32,12 +39,12 @@
 
     <p> ¿Quien es el presidente de españa? </p>
 
-    <input type="text" id="respuesta" value="responda aquí">
+    <input type="text" id="respuesta" onclick="vaciarInput()" value="responda aquí">
 
     <button type="button" onclick="enviar()">enviar</button>
 
     <p>
-        <div id="resultado" />
+        <div id="resultado"></div>
     </p>
 
 </body>
