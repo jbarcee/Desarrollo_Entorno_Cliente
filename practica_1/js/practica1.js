@@ -1,5 +1,7 @@
 var numSerieVerified = false;
 var termsAccepted = false;
+const ID_ERROR_NUMSERIE = "errorNumSerie";
+const ID_ERROR_TERMS = "errorTerms";
 
 //Añade un listener al select para qye cambie la imagen 
 let select = document.getElementById("selectIncidencia");
@@ -22,7 +24,9 @@ textNumSerie.addEventListener("input", function() {
         textNumSerie.style.color = "white";
         textNumSerie.style.backgroundColor = "red";
         textNumSerie.previousElementSibling.style.color = "red";
-        document.getElementById("error").innerHTML="<strong>* El numero de serie tiene que cumplir estas características:<br><ul><li>Debe empezar por 3 numeros</li><li>Debe seguir con 4 letras mayúsculas</li><li>Debe acabar con 1, 2 o A mayuscula</li></ul></strong>"
+        //document.getElementById("error").innerHTML="<strong>* El numero de serie tiene que cumplir estas características:<br><ul><li>Debe empezar por 3 numeros</li><li>Debe seguir con 4 letras mayúsculas</li><li>Debe acabar con 1, 2 o A mayuscula</li></ul></strong>"
+        let errorMsg = "<strong>* El numero de serie tiene que cumplir estas características:<br><ul><li>Debe empezar por 3 numeros</li><li>Debe seguir con 4 letras mayúsculas</li><li>Debe acabar con 1, 2 o A mayuscula</li></ul></strong>";
+        createErrorParagraph(errorMsg, ID_ERROR_NUMSERIE);
     }
     else {
         numSerieVerified = true;
@@ -30,7 +34,8 @@ textNumSerie.addEventListener("input", function() {
         textNumSerie.style.color = "black";
         textNumSerie.style.backgroundColor = "white";
         textNumSerie.previousElementSibling.style.color = "black";
-        document.getElementById("error").innerHTML="";
+        //document.getElementById("error").innerHTML="";
+        document.getElementById(ID_ERROR_NUMSERIE).remove();
     }
 
     if (numSerieVerified && termsAccepted) {
@@ -41,14 +46,19 @@ textNumSerie.addEventListener("input", function() {
     }
 })
 //---------------------------
-
+//Checkea que el checkbox esta marcado 
 let checkBox = document.getElementById("termsCheckBox");
 checkBox.addEventListener("change", function() {
-    if (this.checked) {
-        termsAccepted = true;
+    if (!this.checked) {
+        termsAccepted = false;
+        let errorMsg = "<strong>Debe aceptar las condiciones de servicio.</strong>";
+        createErrorParagraph(errorMsg, ID_ERROR_TERMS);
+        document.getElementById("lblTerms").style.color = "red";
     }
     else {
-        termsAccepted = false;
+        termsAccepted = true;
+        document.getElementById(ID_ERROR_TERMS).remove();
+        document.getElementById("lblTerms").style.color = "black";
     }
 
     if (numSerieVerified && termsAccepted) {
@@ -59,6 +69,32 @@ checkBox.addEventListener("change", function() {
     }
 })
 
+function createErrorParagraph(message, id) {
+    //Si este parrafo aun no existe lo crea, sino no.
+    //Esto evita que por cada input que haga el usuario se cree un parrafo
+    if (document.getElementById(id) == null) {
+        let p = document.createElement("p");
+        p.innerHTML = message;
+        p.setAttribute("id", id);
+        //Metodo comentado ya que el CSS se encargará de dar estilo a los parrafos
+        //setErrorParagraphStyle(p);
+        document.getElementById("divForm").after(p);
+    }
+}
+
+//En el caso de no quererlo hacerlo por medio de CSS, esta sería la forma de dar estilo al parrafo de error
+/*function setErrorParagraphStyle(p) {
+    p.style.paddingLeft = "10px";
+    p.style.fontFamily = "monospace";
+    p.style.fontSize = "15px";
+    p.style.marginTop = "3%";
+    p.style.marginLeft = "25%";
+    p.style.marginRight = "50%";
+    p.style.borderRadius = "5px";
+    p.style.backgroundColor = "red";
+    p.style.color = "white";
+    p.style.borderColor = "white";
+}*/
 
 function enableTextArea() {
     let textAreaBtn = document.getElementById("textAreaButton");
