@@ -5,33 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>PRACTICA 1</title>
-    <script>
-        function enable() {
-            const submit = document.getElementById("sub");
-            submit.disabled = false;
-        }
-    </script>
 </head>
 <body>
     <div id="divTitle">
         <h1>INFORME INCIDENCIA</h1>
     </div>
-    <img src="img/distribution.png">
+    <img id="imgTipoIncidencia" src="img/distribution.png">
     <div id="divForm">
         <form id="form" action="" method="get">
             <label for="tipoIncidencia">Tipo de inicidencia</label>
-            <select type="select" name="tipoIncidencia" >
-                <option>Distribución</option>
-                <option>Oficina</option>
-                <option>Producción</option>
+            <select id="selectIncidencia" type="select" name="tipoIncidencia" >
+                <option value="distribution">Distribución</option>
+                <option value="office">Oficina</option>
+                <option value="production">Producción</option>
             </select><br><br>
             <label for="serie">Número de serie  </label>
-            <input type="text" name="serie"><br><br>
-            <button type="button" onclick="enable()">Mostrar descripción</button><br><br>
-            <input type="checkbox" name="aceptarCondiciones">
+            <input id="textNumSerie" type="text" name="serie"><br><br>
+            <button id="textAreaButton" type="button" onclick="enableTextArea()">Mostrar descripción</button><br><br>
+            <input id="termsCheckBox" type="checkbox" name="aceptarCondiciones">
             <label for="aceptarCondiciones">He leído y acepto las condiciones del servicio </label><br><br>
             <input id="sub" type="submit" value="Enviar datos" disabled>
         </form>
     </div>
+    <p id="error"></p>
+    <script src="js/practica1.js"></script>
 </body>
 </html>
