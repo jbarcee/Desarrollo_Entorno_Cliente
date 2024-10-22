@@ -96,7 +96,7 @@ function createErrorParagraph(message, id) {
     p.style.borderColor = "white";
 }*/
 
-function enableTextArea() {
+function showTextArea() {
     let textAreaBtn = document.getElementById("textAreaButton");
     let sibling = textAreaBtn.previousElementSibling;
 

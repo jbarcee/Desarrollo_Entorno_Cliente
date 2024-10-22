@@ -20,8 +20,8 @@
                 <option value="production">Producción</option>
             </select><br><br>
             <label for="serie">Número de serie  </label>
-            <input id="textNumSerie" type="text" name="serie"><br><br>
-            <button id="textAreaButton" type="button" onclick="enableTextArea()">Mostrar descripción</button><br><br>
+            <input id="textNumSerie" maxlength="8" type="text" name="serie"><br><br>
+            <button id="textAreaButton" type="button" onclick="showTextArea()">Mostrar descripción</button><br><br>
             <input id="termsCheckBox" type="checkbox" name="aceptarCondiciones">
             <label id="lblTerms" for="aceptarCondiciones">He leído y acepto las condiciones del servicio </label><br><br>
             <input id="sub" type="submit" value="Enviar datos" disabled>
