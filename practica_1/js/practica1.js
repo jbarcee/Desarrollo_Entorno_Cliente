@@ -70,7 +70,9 @@ checkBox.addEventListener("change", function() {
     }
     else {
         termsAccepted = true;
-        document.getElementById(ID_ERROR_TERMS).remove();
+        if (document.getElementById(ID_ERROR_TERMS) != null) {
+            document.getElementById(ID_ERROR_TERMS).remove();
+        }
         document.getElementById("lblTerms").style.color = "black";
     }
 
