@@ -3,6 +3,8 @@ var termsAccepted = false;
 const ID_ERROR_NUMSERIE = "errorNumSerie";
 const ID_ERROR_TERMS = "errorTerms";
 
+
+
 //Añade un listener al select para qye cambie la imagen 
 let select = document.getElementById("selectIncidencia");
 select.addEventListener("change", function() {
@@ -15,9 +17,11 @@ select.addEventListener("change", function() {
 
 //Añade un listener al campo de texto de numero de serie para verificar que se introduce un valor correcto
 let textNumSerie = document.getElementById("textNumSerie");
-textNumSerie.addEventListener("input", function() {
+textNumSerie.addEventListener("input", function(event) {
     let textValue = textNumSerie.value;
     let regEx = /^\d{3}[A-Z]{4}[12A]$/;
+
+    
     if (textValue == "" || !regEx.test(textValue)) {
         numSerieVerified = false;
         textNumSerie.style.borderColor = "red";
@@ -44,7 +48,16 @@ textNumSerie.addEventListener("input", function() {
     else {
         document.getElementById("sub").disabled=true;
     }
-})
+});
+//Añade un listener para que cuando se haga click en el cuadro de texto tanto el value como el style se reinicien
+textNumSerie.addEventListener("click", function(){
+        textNumSerie.style.borderColor = "black";
+        textNumSerie.style.color = "black";
+        textNumSerie.style.backgroundColor = "white";
+        textNumSerie.previousElementSibling.style.color = "black";
+        textNumSerie.value = "";
+        document.getElementById(ID_ERROR_NUMSERIE).remove();
+});
 //---------------------------
 //Checkea que el checkbox esta marcado 
 let checkBox = document.getElementById("termsCheckBox");
@@ -67,7 +80,7 @@ checkBox.addEventListener("change", function() {
     else {
         document.getElementById("sub").disabled=true;
     }
-})
+});
 
 function createErrorParagraph(message, id) {
     //Si este parrafo aun no existe lo crea, sino no.
