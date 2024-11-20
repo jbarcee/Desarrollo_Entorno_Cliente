@@ -5,8 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="js/js.js"></script>
+    <style>
+        html {
+            background: linear-gradient(rgb(0, 71, 0), green);
+            height: 100%;
+        }
+        
+        .btn {
+            background-color: brown;
+            color: white;
+            border-radius: 20px;
+        }
+
+        .btn:disabled {
+            background-color: gray;
+            border-color: black;
+            color:black;
+        }
+
+        #tablero {
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            margin-top: 200px;
+        }
+
+        #tablero .carta {
+            padding: 0 20px;
+        }
+
+        .carta {
+            transition: all 0.4s ease-in;
+        }
+    </style>
 </head>
 <body>
-    
+    <button class="btn" id="btn-cogerCarta" onclick="cogerCarta()">Coger carta</button>
+    <button class="btn" id="btn-nuevaPartida" disabled="true" onclick="reset()">Nueva Partida</button>
+    <div id="tablero">
+        <img class="carta" width="200" id="0" src="cartas/dorso-rojo.svg" alt="">
+        <img class="carta" width="200" id="1" src="cartas/dorso-rojo.svg" alt="">
+        <img class="carta" width="200" id="2" src="cartas/dorso-rojo.svg" alt="">
+        <img class="carta" width="200" id="3" src="cartas/dorso-rojo.svg" alt="">
+        <img class="carta" width="200" id="4" src="cartas/dorso-rojo.svg" alt="">
+    </div>
 </body>
+<footer>
+    
+</footer>
 </html>
