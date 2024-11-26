@@ -1,3 +1,4 @@
+const arrayPalos = ["c", "d", "p", "t"];
 class Carta {
     #palo = null;
     #valor = null;
@@ -16,6 +17,13 @@ class Carta {
         return this.#palo + this.#valor;
     }
 
+    getPalo() {
+        return this.#palo;
+    }
+
+    getValor() {
+        return this.#valor;
+    }
 
 
 }
@@ -29,7 +37,6 @@ class Baraja {
 
 
     static #fillBaraja() {
-        const arrayPalos = ["c", "d", "p", "t"];
         let carta = null;
         let array = [];
         for (let i = 0; i < 4; i++) {
@@ -72,6 +79,15 @@ class Jugador {
 
     nuevaCarta(baraja) {
         let carta = baraja.reparteCarta();
+        //TEST
+        if (paloDado < 4) {
+            carta.darValor(arrayPalos[paloDado], 2);
+        }
+        else {
+            paloDado = 0;
+        }
+        
+
         this.#mano.push(carta);
         return carta;
     }
@@ -82,19 +98,29 @@ class Jugador {
 }
 
 //INICIO DE LÓGICA
+const PAREJA = 2;
+const DOBLE_PAREJA = 4;
+const TRIO = 3;
+const FULL = 5;
+const POKER = 6;
 var baraja = new Baraja;
 var player = new Jugador;
 var numRepartidas = 0;
+//TEST
+var paloDado = 0;
 
 function cogerCarta() {
-    baraja.barajar();
+    //baraja.barajar();
     let carta = player.nuevaCarta(baraja);
     document.getElementById(numRepartidas).setAttribute("src", "cartas/"+carta.getPaloValor()+".svg");
     numRepartidas++;
+    //TEST
+    paloDado++;
     if (player.getMano().length == 5) {
         document.getElementById("btn-cogerCarta").disabled = true;
         document.getElementById("btn-nuevaPartida").disabled = false;
         numRepartidas = 0;
+        checkCombination(player.getMano());
     }
 }
 function reset() {
@@ -108,6 +134,75 @@ function reset() {
     }
     document.getElementById("btn-cogerCarta").disabled = false;
     document.getElementById("btn-nuevaPartida").disabled = true;
+    document.getElementById("resultado").innerHTML = "";
+}
+
+function checkCombination(cartas) {
+    
+    if (checkColor(cartas)) {
+        document.getElementById("resultado").innerHTML = "¡COLOR!"
+    }
+    else if (checkIguales(cartas) !== 0) {
+        switch(checkIguales(cartas)) {
+            case PAREJA:
+                document.getElementById('resultado').innerHTML = "PAREJA";
+                break;
+            case TRIO:
+                document.getElementById('resultado').innerHTML = "TRIO";
+                break;
+            case DOBLE_PAREJA:
+                document.getElementById('resultado').innerHTML = "DOBLE PAREJA";
+                break;
+            case FULL:
+                document.getElementById('resultado').innerHTML = "FULL";
+                break;
+            case POKER:
+                document.getElementById('resultado').innerHTML = "POKER";
+                break;
+            default:
+                break;
+        }
+    }
+    else {
+        document.getElementById("resultado").innerHTML = "Ninguna combinacion."
+    }
+}
+
+function checkColor(cartas) {
+    return cartas.every(c => c.getPalo() == "d") || cartas.every(c => c.getPalo() == "t") || cartas.every(c => c.getPalo() == "c") || cartas.every(c => c.getPalo() == "p");
+}
+
+function checkIguales(cartas) {
+    let numParejas = 0;
+    let initialSize = cartas.length;
+    for (let i = 1; i < 14; i++) {
+        let cloneCartas = new Array(...cartas);
+        cloneCartas = cloneCartas.filter((j) => { return j.getValor() !== i });
+        if (cloneCartas.length === initialSize - TRIO) {
+            if (checkIguales(cloneCartas) == PAREJA) {
+                numParejas = FULL;
+            }
+            else {
+                numParejas = TRIO;
+            }
+        }
+        else if (cloneCartas.length === initialSize - PAREJA) {
+            if (checkIguales(cloneCartas) == PAREJA) {
+                if (cloneCartas.filter((j) => { return j.getPalo() !== cloneCartas[0].getPalo()}).length === 1 && cloneCartas.every((j) => { return j.getValor() === cloneCartas[0].getValor()})) { 
+                    numParejas = POKER;
+                }
+                else {
+                    numParejas = DOBLE_PAREJA;
+                }
+            }
+            else {
+                numParejas = PAREJA;
+            }
+            
+        }   
+    }
+    return numParejas;
+    
 }
 
 
