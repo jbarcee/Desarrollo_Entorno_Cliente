@@ -79,15 +79,6 @@ class Jugador {
 
     nuevaCarta(baraja) {
         let carta = baraja.reparteCarta();
-        //TEST
-        if (paloDado < 4) {
-            carta.darValor(arrayPalos[paloDado], 2);
-        }
-        else {
-            paloDado = 0;
-        }
-        
-
         this.#mano.push(carta);
         return carta;
     }
@@ -106,21 +97,19 @@ const POKER = 6;
 var baraja = new Baraja;
 var player = new Jugador;
 var numRepartidas = 0;
-//TEST
-var paloDado = 0;
 
 function cogerCarta() {
-    //baraja.barajar();
+    baraja.barajar();
     let carta = player.nuevaCarta(baraja);
     document.getElementById(numRepartidas).setAttribute("src", "cartas/"+carta.getPaloValor()+".svg");
     numRepartidas++;
-    //TEST
-    paloDado++;
+    
     if (player.getMano().length == 5) {
         document.getElementById("btn-cogerCarta").disabled = true;
         document.getElementById("btn-nuevaPartida").disabled = false;
         numRepartidas = 0;
         checkCombination(player.getMano());
+        document.getElementById("resultado").style.display = "block";
     }
 }
 function reset() {
@@ -134,76 +123,66 @@ function reset() {
     }
     document.getElementById("btn-cogerCarta").disabled = false;
     document.getElementById("btn-nuevaPartida").disabled = true;
+    document.getElementById("resultado").style.display = "none";
     document.getElementById("resultado").innerHTML = "";
 }
 
 function checkCombination(cartas) {
+    let values = cartas.map(carta => carta.getValor());
+    let palos = cartas.map(carta => carta.getPalo());
     
-    if (checkColor(cartas)) {
-        document.getElementById("resultado").innerHTML = "¡COLOR!"
+    const esColor = new Set(palos).size === 1;
+    const esEscalera = this.esEscalera(values);
+    
+    if (esColor && esEscalera) { 
+        document.getElementById("resultado").innerHTML = "¡Escalera de color!";  
+        return;
+    };
+    if (this.contarRepeticiones(values).includes(4)) {
+        document.getElementById("resultado").innerHTML = "¡Póker!"; 
+        return;
+    } 
+    if (this.contarRepeticiones(values).includes(3) && this.contarRepeticiones(values).includes(2)) {
+        document.getElementById("resultado").innerHTML = "¡Full!"; 
+        return;
     }
-    else if (checkIguales(cartas) !== 0) {
-        switch(checkIguales(cartas)) {
-            case PAREJA:
-                document.getElementById('resultado').innerHTML = "PAREJA";
-                break;
-            case TRIO:
-                document.getElementById('resultado').innerHTML = "TRIO";
-                break;
-            case DOBLE_PAREJA:
-                document.getElementById('resultado').innerHTML = "DOBLE PAREJA";
-                break;
-            case FULL:
-                document.getElementById('resultado').innerHTML = "FULL";
-                break;
-            case POKER:
-                document.getElementById('resultado').innerHTML = "POKER";
-                break;
-            default:
-                break;
-        }
+    if (esColor) {
+        document.getElementById("resultado").innerHTML = "¡Color!";
+        return;
     }
-    else {
-        document.getElementById("resultado").innerHTML = "Ninguna combinacion."
+    if (esEscalera) {
+        document.getElementById("resultado").innerHTML = "¡Escalera!";
+        return;
     }
+    if (this.contarRepeticiones(values).includes(3)) {
+        document.getElementById("resultado").innerHTML = "¡Trío!";
+        return;
+    }
+    if (this.contarRepeticiones(values).filter(x => x === 2).length === 2) {
+        document.getElementById("resultado").innerHTML = "¡Doble pareja!";
+        return;
+    }
+    if (this.contarRepeticiones(values).includes(2)) {
+        document.getElementById("resultado").innerHTML = "¡Pareja!";
+        return;
+    }
+    document.getElementById("resultado").innerHTML = "¡No tienes ninguna combinación en tu mano!";
 }
 
-function checkColor(cartas) {
-    return cartas.every(c => c.getPalo() == "d") || cartas.every(c => c.getPalo() == "t") || cartas.every(c => c.getPalo() == "c") || cartas.every(c => c.getPalo() == "p");
+function esEscalera(valores) {
+    const ordenados = [...new Set(valores)].sort((a, b) => a - b);
+    return ordenados.length === 5 && ordenados[4] - ordenados[0] === 4;
 }
 
-function checkIguales(cartas) {
-    let numParejas = 0;
-    let initialSize = cartas.length;
-    for (let i = 1; i < 14; i++) {
-        let cloneCartas = new Array(...cartas);
-        cloneCartas = cloneCartas.filter((j) => { return j.getValor() !== i });
-        if (cloneCartas.length === initialSize - TRIO) {
-            if (checkIguales(cloneCartas) == PAREJA) {
-                numParejas = FULL;
-            }
-            else {
-                numParejas = TRIO;
-            }
-        }
-        else if (cloneCartas.length === initialSize - PAREJA) {
-            if (checkIguales(cloneCartas) == PAREJA) {
-                if (cloneCartas.filter((j) => { return j.getPalo() !== cloneCartas[0].getPalo()}).length === 1 && cloneCartas.every((j) => { return j.getValor() === cloneCartas[0].getValor()})) { 
-                    numParejas = POKER;
-                }
-                else {
-                    numParejas = DOBLE_PAREJA;
-                }
-            }
-            else {
-                numParejas = PAREJA;
-            }
-            
-        }   
+function contarRepeticiones(valores) {
+    const conteo = {};
+    for (let valor of valores) {
+        conteo[valor] = (conteo[valor] || 0) + 1;
     }
-    return numParejas;
-    
+    return Object.values(conteo);
 }
+    
+
 
 
 
