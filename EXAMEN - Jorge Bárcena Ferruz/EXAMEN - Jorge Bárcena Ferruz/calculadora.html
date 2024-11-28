@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="js/calculadora.js"></script>
+	<style>
+		.calculator{
+			border: 0px solid #fff;
+			width: 280px;
+			box-sizing: border-box;
+			margin: 10px auto 0;
+			font-family: verdana;
+		}
+
+		.form-control{
+			height: 60px;
+		}
+
+		.form-group{
+			margin-bottom: 0;
+			text-align: center;
+			margin-right: 1%;
+			margin-left: 0%;
+		}
+
+		input[type=text]{
+			font-size: 1.5rem;
+			color: #333;
+			width: 98%;
+		}
+
+		.btn {
+			font-size: 1.5rem;
+			color: #333;
+			width: 80px;
+		}
+
+		.btn-op {
+			background-color: #999999;
+		}
+		
+		.btn-ac {
+			background-color: #999999;
+			height: 60px;
+		}
+
+		.cabecera {
+			padding: 10px;
+		}
+		
+		.radio {
+			width: 280px;
+			margin: 40px auto 0;
+			font-family: verdana;
+			font-size: 1rem;
+			font-weight: normal;
+		}
+	</style>
+</head>
+<body>
+	<table class="calculator">
+		<thead>			
+			<tr>
+				<td colspan="6" class="cabecera">
+					Calculadora
+					<input type="radio" onchange="switchCalculator();" value="estandar" name="tipo" id="estandar"/> Estándar
+					<input type="radio" onchange="switchCalculator();" value="estandar" name="tipo" id="cientifica"/> Científica
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<button class="btn btn-ac" onclick="clearScreen(); firstIsSet = false; firstOp = 0; secondOp = 0;" id="ac">AC</button>
+				</td>
+				<td colspan="3">
+					<div class="form-group">
+						<input type="text" class="form-control" readonly name="pantalla" id="pantalla" value="0">
+					</div>				
+				</td>
+			</tr>		
+			<tr>
+				<td>
+					<button onclick="firstIsSet = true; operation = 'division'; clearScreen();" class="btn btn-op" id="division">÷</button>			
+				</td>
+				<td>
+					<button onclick="addValueToScreen(7)" class="btn" id="siete">7</button>
+				</td>
+				<td>
+					<button onclick="addValueToScreen(8)" class="btn" id="ocho">8</button>				
+				</td>
+				<td>
+					<button onclick="addValueToScreen(9)" class="btn" id="nueve">9</button>				
+				</td>
+				<td>
+					<button onclick="changeSign()" class="btn btn-op" id="signo">+/-</button>				
+				</td>
+				<td>
+					<button onclick="calculateSin()" class="btn btn-op" id="seno">sin</button>			
+				</td>
+			</tr>			
+			<tr>
+				<td>
+					<button onclick="firstIsSet = true; operation = 'multiplicacion'; clearScreen();" class="btn btn-op" id="multiplicacion">×</button>
+				</td>
+				<td>
+					<button onclick="addValueToScreen(4)" class="btn" id="cuatro">4</button>
+				</td>
+				<td>
+					<button onclick="addValueToScreen(5)" class="btn" id="cinco">5</button>				
+				</td>
+				<td>
+					<button onclick="addValueToScreen(6)" class="btn" id="seis">6</button>				
+				</td>
+
+				<td>
+					<button onclick="addValueToScreen(Math.PI)" class="btn btn-op" id="pi">π</button>				
+				</td>
+				<td>
+					<button onclick="calculateCos()" class="btn btn-op" id="coseno">cos</button>			
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button onclick="firstIsSet = true; operation = 'resta'; clearScreen();" class="btn btn-op" id="resta">-</button>
+				</td>
+				<td>
+					<button onclick="addValueToScreen(3)" class="btn" id="tres">3</button>
+				</td>
+				<td>
+					<button onclick="addValueToScreen(2)" class="btn" id="dos">2</button>				
+				</td>
+				<td>
+					<button onclick="addValueToScreen(1)" class="btn" id="uno">1</button>				
+				</td>
+				<td>
+					<button onclick="addValueToScreen(Math.E)" class="btn btn-op" id="e">e</button>				
+				</td>
+				<td>
+					<button onclick="calculateTan()" class="btn btn-op" id="tangente">tan</button>			
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button onclick="firstIsSet = true; operation = 'suma'; clearScreen();" class="btn btn-op" id="suma">+</button>
+				</td>
+				<td>
+					<button onclick="addValueToScreen('.')" class="btn btn-op" id="punto">.</button>
+				</td>
+				<td>
+					<button onclick="addValueToScreen(0)"class="btn" id="cero">0</button>				
+				</td>
+				<td>
+					<button onclick="calculate()"class="btn btn-op" id="igual">=</button>				
+				</td>
+				<td>
+					<button onclick="calculateSqrt()" class="btn btn-op" id="raiz">√</button>			
+				</td>
+				<td>
+					<button onclick="calculateSquare()" class="btn btn-op" id="cuadrado">x²</button>				
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<script>
+		init();
+	</script>
+</body>
+</html>
