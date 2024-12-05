@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EJERCICIO 3</title>
+</head>
+
+<body>
+    <h1>LISTA DE TAREAS</h1>
+    <form action="#">
+        <input type="text" name="tarea" id="input-tarea" placeholder="Introduzca una tarea">
+        <input type="radio" name="prioridad" value="alta" id="p-alta">
+        <label for="p-alta">Alta</label>
+        <input type="radio" name="prioridad" value="media" id="p-media">
+        <label for="p-media">Media</label>
+        <input type="radio" name="prioridad" value="baja" id="p-baja" checked>
+        <label for="p-baja">Baja</label>
+        <input style="margin-left:10px;" id="btn-añadirTarea" type="submit" value="Añadir tarea">
+    </form>
+    <ul id="listaTareas"></ul>
+    <button onclick="javascript: localStorage.setItem('listaTareas',JSON.stringify(new Array)); window.location.reload()">Borrar todas</button>
+
+    <script>
+        const guardarTarea = (listaTareas, tarea) => {
+            listaTareas != null ? listaTareas = JSON.parse(listaTareas) : listaTareas = new Array;
+            listaTareas.push(tarea);
+            localStorage.setItem("listaTareas", JSON.stringify(listaTareas));
+            window.location.reload();
+        }
+        const mostrarTareas = (listaTareas) => {
+            if (listaTareas === null) return;
+            //La convierto a Array
+            listaTareas = JSON.parse(listaTareas);
+            for (let i = 0; i < listaTareas.length; i++) {
+                let li = document.createElement("li");
+                let color = "white";
+                li.innerHTML = listaTareas[i].text;
+                switch (listaTareas[i].priority) {
+                    case "alta":
+                        color = "red";
+                        break;
+                    case "media":
+                        color = "yellow";
+                        break;
+                    case "baja":
+                        color = "lightgreen";
+                        break;
+                }
+                li.style.backgroundColor = color;
+                li.style.paddingLeft = "6px";
+                li.style.paddingRight = "6px";
+                li.style.marginTop = "6px";
+                li.style.width = "fit-content";
+                li.style.fontSize = "20px"; 
+
+                let btn = document.createElement("button");
+                btn.innerHTML = "Borrar";
+                btn.style.marginLeft = "6px";
+
+                btn.addEventListener("click", function() {
+                    listaTareas.splice(i,1);
+                    localStorage.setItem("listaTareas", JSON.stringify(listaTareas));
+                    window.location.reload();
+                });
+                li.appendChild(btn);
+                document.querySelector("#listaTareas").appendChild(li);
+            }
+        }
+        let listaTareas = localStorage.getItem("listaTareas");
+        const position = JSON.parse(listaTareas).length;
+        
+        
+        mostrarTareas(listaTareas);
+
+        addEventListener("submit", function () {
+            let text = document.querySelector("#input-tarea").value ?? "Tarea vacía";
+            let priority = document.querySelector("input[type=radio]:checked").value ?? "baja";
+            
+            let tarea = {
+                text,
+                priority,
+            }
+
+            guardarTarea(listaTareas, tarea);
+            document.querySelector("#input-tarea").value = "";
+            document.querySelector("#input-tarea").focus();
+        })
+    </script>
+</body>
+
+</html>

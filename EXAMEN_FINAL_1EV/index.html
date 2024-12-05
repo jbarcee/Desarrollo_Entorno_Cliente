@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXAMEN_1EV_JBF</title>
+    <!--CREACIÓN DE CLASES-->
+    <script>
+        class Articulo {
+            constructor(nombre, localizacion, precio) {
+                this.nombre = nombre;
+                this.localizacion = localizacion;
+                this.precio = precio;
+            }
+
+            updatePrecio(valor) {
+                this.precio = valor;
+                return this;
+            }
+
+            toString() {
+                return `*ARTICULO*\nNombre = ${this.nombre}\nLocalizacion = ${this.localizacion}\nPrecio = ${this.precio} euros\n`;
+            }
+
+            
+        }
+
+        class ArticuloFresco extends Articulo {
+            constructor(nombre, localizacion, precio, fecha, duracion) {
+                super(nombre, localizacion, precio)
+                this.fecha = fecha;
+                this.duracion = duracion;
+            }
+
+            toString() {
+                return `${super.toString()}Fecha = ${this.fecha}\nDuracion = ${this.duracion} dias\n`;
+            }
+        }
+    </script>
+    <style>
+        input {
+            margin: 10px 0;
+            
+        }
+
+        li {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        li button {
+            margin: 0 10px;
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+<body>
+    <h1>ALMACEN DE ARTICULOS</h1>
+    <form action="#">
+        <label for="nombre">Nombre del articulo:</label>
+        <input type="text" name="nombre" id="input-name"><br>
+        <label for="localizacion">Localizacion:</label>
+        <input type="text" name="localizacion" id="input-location"><br>
+        <label for="precio">Precio:</label>
+        <input type="number" placeholder="Valor en euros" name="precio" id="input-price"><br>
+        <label for="duracion">Duracion:</label>
+        <input type="number" placeholder="Valor en días" name="duracion" id="input-duration"><br>
+        <input id="input-submit" type="submit" value="Añadir artículo">
+    </form>
+    <br>
+    <ul id="articleList"></ul>
+
+    <script>
+        showArticleList();
+
+        addEventListener("submit", function() {
+            let articleList = [];
+            let name = document.querySelector("#input-name").value;
+            let date = (new Date()).toDateString();
+            let location = document.querySelector("#input-location").value;
+            let price = document.querySelector("#input-price").value;
+            let duration = document.querySelector("#input-duration").value;
+
+            if (localStorage.getItem("articleList") !== null) {
+                articleList = JSON.parse(localStorage.getItem("articleList"));
+            }
+            
+            let newArticle = new ArticuloFresco(name, location, price, date, duration);
+            articleList.push(newArticle);
+            localStorage.setItem("articleList", JSON.stringify(articleList));
+            
+        })
+
+
+
+        function createArticuloElement(article) {
+            let li = document.createElement("li");
+            li.innerHTML = article.nombre;
+            document.querySelector("#articleList").appendChild(li);
+        }
+
+        function showArticleList() {
+            if (localStorage.getItem("articleList") !== null) {
+               let lista = JSON.parse(localStorage.getItem("articleList"));
+                for (let i = 0; i < lista.length; i++) {
+                    let obj = new ArticuloFresco(lista[i].nombre, lista[i].localizacion, lista[i].precio, lista[i].fecha, lista[i].duracion);
+
+                    let li = document.createElement("li");
+                    li.innerHTML = obj.nombre;
+
+                    //BOTON INFO
+                    let btnInfo = document.createElement("button");
+                    btnInfo.addEventListener("click", () =>{
+                        //alert(`*ARTICULO*\nNombre: ${obj.nombre}\nLocalizacion: ${obj.localizacion}\nPrecio: ${obj.precio}\nFecha: ${obj.fecha}\nDuracion: ${obj.duracion}`);
+                        alert(obj.toString());
+                    } );
+                    btnInfo.innerHTML = "Ver Info";
+                    li.appendChild(btnInfo);
+
+                    //BOTON MODIFICAR
+                    let btnModificarPrecio = document.createElement("button");
+                    btnModificarPrecio.addEventListener("click", function() {
+                        let valor = prompt("¿Nuevo precio?");
+                        if (!isNaN(valor)) {
+                            lista[i] = obj.updatePrecio(valor);
+                        }
+                        else {
+                            alert("Valor no válido")
+                        }
+                        localStorage.setItem("articleList", JSON.stringify(lista));
+                        window.location.reload();
+                    })
+                    btnModificarPrecio.innerHTML = "Modificar precio";
+                    li.appendChild(btnModificarPrecio);
+
+                    //BOTON ELIMINAR
+                    let btnEliminar = document.createElement("button");
+                    btnEliminar.addEventListener("click", function() {
+                        lista.splice(i,1);
+                        localStorage.setItem("articleList", JSON.stringify(lista));
+                        window.location.reload();
+                    })
+                    btnEliminar.innerHTML = "Eliminar";
+                    li.appendChild(btnEliminar);
+
+                    document.querySelector("#articleList").appendChild(li);
+                }
+            }
+            
+        }
+    </script>
+</body>
+
+</html>

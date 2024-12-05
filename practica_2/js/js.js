@@ -169,15 +169,15 @@ function checkCombination(cartas) {
     document.getElementById("resultado").innerHTML = "¡No tienes ninguna combinación en tu mano!";
 }
 
-function esEscalera(valores) {
-    const ordenados = [...new Set(valores)].sort((a, b) => a - b);
+function esEscalera(values) {
+    const ordenados = [...new Set(values)].sort((a, b) => a - b);
     return ordenados.length === 5 && ordenados[4] - ordenados[0] === 4;
 }
 
-function contarRepeticiones(valores) {
+function contarRepeticiones(values) {
     const conteo = {};
-    for (let valor of valores) {
-        conteo[valor] = (conteo[valor] || 0) + 1;
+    for (let value of values) {
+        conteo[value] = (conteo[value] || 0) + 1;
     }
     return Object.values(conteo);
 }

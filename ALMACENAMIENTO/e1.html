@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 style="text-align: center; background-color: lightgreen; border-radius: 10px;">¡BIENVENID@!</h1>
+    <h2 style="text-align: center; background-color: lightgreen; border-radius: 10px;"></h2>
+
+    <!--CON COOKIES--
+    <script>
+            let cookie = document.cookie.split("; ");
+            var [nombre, value] = cookie[0].split("=");
+            if (value === undefined) {
+                document.querySelector("h2").innerText = "¡Esta es su primera visita!";
+                document.cookie = `visitas=1;max-age=${3600}`;
+            }
+            else {
+                value++;
+                document.querySelector("h2").innerHTML = `Ha visitado la pagina ${value} veces`;
+                document.cookie = `visitas=${value};max-age=${3600}`;
+            }
+    </script>-->
+    <!--CON LOCAL STORAGE-->
+    <script>
+        if (localStorage.visitas === undefined) {
+            document.querySelector("h2").innerHTML = "¡Esta es su primera visita!";
+            localStorage.setItem("visitas", "1");
+        }
+        else {
+            let numVisitas = localStorage.visitas;
+            numVisitas++;
+            document.querySelector("h2").innerHTML = `Ha visitado la pagina ${numVisitas} veces`;
+            localStorage.setItem("visitas", numVisitas);
+        }
+    </script>
+</body>
+</html>

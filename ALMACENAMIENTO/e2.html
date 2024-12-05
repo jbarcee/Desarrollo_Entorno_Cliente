@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function mostrarTareas() {
+            let cookies = document.cookie.split("; ");
+            for (c of cookies) {
+                
+                alert(c);
+            }
+        }
+
+        function añadirTarea() {
+            let length = document.cookie.length;
+            let tarea = document.querySelector("input[name=tarea]").value;
+            alert(tarea);
+            let prioridad = document.querySelector("[type=radio]:checked").value;
+            alert(prioridad);
+            let bgColor = "white";
+            switch(prioridad) {
+                case "alta":
+                    bgColor = "red";
+                    break;
+                case "media":
+                    alert("si")
+                    bgColor = "yellow";
+                    break;
+                case "baja":
+                    bgColor = "green";
+                    break;
+                default:
+                    break;
+            }
+            document.cookie = `tarea${length}=${tarea};color=${bgColor};max-age=${(new Date).getTime() + 3600*24}`;
+            alert("acabo")
+        }
+    </script>
+</head>
+<body>
+    <h1 style="background-color: aquamarine; top:0; width: fit-content; padding: 10px; border-radius: 10px;;">LISTA DE TAREAS</h1>
+
+    <input type="text" name="tarea" placeholder="Inserta una tarea">
+    <input type="radio" id="alta" name="prioridad" value="alta">
+    <label for="alta">Alta</label>
+    <input type="radio" id="alta" name="prioridad" value="media">
+    <label for="media">Media</label>
+    <input type="radio" id="alta" name="prioridad" value="baja">
+    <label for="baja">Baja</label>
+    <button onclick="añadirTarea()" style="margin-left: 10px;">Añadir tarea</button><br>
+
+
+
+</body>
+</html>
